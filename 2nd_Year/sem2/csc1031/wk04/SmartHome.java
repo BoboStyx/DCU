@@ -43,7 +43,6 @@ public class SmartHome {
         }
     }
 
-    // First-Level Inherited Class: Refrigerator
     static class Refrigerator extends Appliance {
         private double temperature;
 
