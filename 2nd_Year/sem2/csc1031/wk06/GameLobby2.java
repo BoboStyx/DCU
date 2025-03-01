@@ -6,6 +6,7 @@ interface Player {
     void leaveGame();
     void sendMessage(String message);
     void receiveMessage(String message);
+	String getName();
     String getPlayerType();
 }
 
@@ -18,6 +19,7 @@ abstract class AbstractPlayer implements Player {
         this.lobby = lobby;
     }
 
+	@Override
     public String getName() {
         return name;
     }
@@ -46,6 +48,21 @@ abstract class AbstractPlayer implements Player {
     }
 
     public abstract String getPlayerType();
+}
+
+class AdminPlayer extends AbstractPlayer {
+    public AdminPlayer(String name, GameLobby lobby) {
+        super(name, lobby);
+    }
+
+    @Override
+    public String getPlayerType() {
+        return "AdminPlayer";
+    }
+
+    public void kickPlayer(String name) {
+        lobby.kickPlayer(name, this);
+    }
 }
 
 class HumanPlayer extends AbstractPlayer {
@@ -80,7 +97,9 @@ class Spectator extends AbstractPlayer {
         return "Spectator";
     }
 }
-public class GameLobby {
+
+
+	class GameLobby {
     private List<Player> players;
 
 	public GameLobby() {
@@ -89,20 +108,30 @@ public class GameLobby {
 
     public void registerPlayer(Player player) {
         players.add(player);
-        System.out.println("[GameLobby] " + player.getPlayerType() + " " + ((AbstractPlayer)player).getName() + " has joined the lobby.");
+        System.out.println("[GameLobby] " + player.getPlayerType() + " " + player.getName() + " has joined the lobby.");
     }
 
     public void removePlayer(Player player) {
         players.remove(player);
-        System.out.println("[GameLobby] " + player.getPlayerType() + " " + ((AbstractPlayer)player).getName() + " has left the lobby.");
+        System.out.println("[GameLobby] " + player.getPlayerType() + " " + player.getName() + " has left the lobby.");
     }
 
+	void kickPlayer(String name, AdminPlayer admin){
+		for (Player p : players){
+			if (p.getName() == name && p.getPlayerType() != "AdminPlayer"){
+				System.out.println("[GameLobby] Admin " + admin.getName() + " kicked " + p.getPlayerType() + " " + name + " from the lobby.");
+				removePlayer(p);
+				return;
+			}
+		}
+		System.out.println("[GameLobby] Player " + name + " not found.");
+	}
     public void sendMessage(String message, Player sender) {
         if(sender.getPlayerType().equals("Spectator")) {
             System.out.println("[GameLobby] Spectators cannot send messages.");
             return;
         }
-        System.out.println("[GameLobby] Message from " + ((AbstractPlayer)sender).getName() + ": \"" + message + "\"");
+        System.out.println("[GameLobby] Message from " + sender.getName() + ": \"" + message + "\"");
         for(Player p : players) {
             if(p != sender) {
                 p.receiveMessage(message);
@@ -115,7 +144,7 @@ public class GameLobby {
         for (Player p : players) {
             String type = p.getPlayerType();
             if(type.equals("HumanPlayer") || type.equals("AIPlayer")) {
-                participantNames.add(((AbstractPlayer)p).getName());
+                participantNames.add(p.getName());
 			}
 		}
         if (participantNames.size() < 2) {
@@ -126,3 +155,4 @@ public class GameLobby {
         }
     }
 }
+
