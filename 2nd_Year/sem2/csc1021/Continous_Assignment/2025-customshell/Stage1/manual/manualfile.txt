@@ -1,0 +1,45 @@
+CUSTOM SHELL HELP MANUAL
+
+Available Commands:
+
+1. cd [OPTIONAL: DIRECTORY]
+   - Change the current working directory.
+   - Cd withouth any argument prints the current working directory, ~ goes to the home directory if found.
+   - Example: cd usr/bin/
+             cd ~
+
+2. clr
+   - Clears the screen.
+   - Example: clr
+
+3. dir [OPTIONAL: DIRECTORY]
+   - Lists the contents of the specified directory.
+   - If no directory is specified, lists the current directory.
+   - Example: dir /home/user
+             dir
+
+4. environ
+   - Displays all environment variables.
+   - Example: environ
+
+5. echo [TEXT]
+   - Prints the text provided by the user.
+   - Reduces multiple spaces/tabs to a single space.
+   - Example: echo Hello, this is my shell!
+
+6. help
+   - Displays this help manual using the `more` command.
+   - Example: help
+
+7. pause
+   - Pauses the shell until the user presses Enter.
+   - Example: pause
+
+8. quit
+   - Exits the shell.
+   - Example: quit
+
+HOW TO USE BATCH MODE:
+- The shell can read commands from a file.
+- Run the shell with: ./customshell batchfile.txt.
+- The batch file should have one command per line.
