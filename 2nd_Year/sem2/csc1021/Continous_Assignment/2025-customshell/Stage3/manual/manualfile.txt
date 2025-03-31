@@ -1,0 +1,63 @@
+CUSTOM SHELL HELP MANUAL
+
+Available Commands:
+
+1. cd [OPTIONAL: DIRECTORY]
+   - Change the current working directory.
+   - Cd withouth any argument prints the current working directory, ~ goes to the home directory if found.
+   - Example: cd usr/bin/
+             cd ~
+
+2. clr
+   - Clears the screen.
+   - Example: clr
+
+3. dir [OPTIONAL: DIRECTORY]
+   - Lists the contents of the specified directory.
+   - If no directory is specified, lists the current directory.
+   - Example: dir /home/user
+             dir
+
+4. environ
+   - Displays all environment variables.
+   - Example: environ
+
+5. echo [TEXT]
+   - Prints the text provided by the user.
+   - Reduces multiple spaces/tabs to a single space.
+   - Example: echo Hello, this is my shell!
+
+6. help
+   - Displays this help manual using the `more` command.
+   - Example: help
+
+7. pause
+   - Pauses the shell until the user presses Enter.
+   - Example: pause
+
+8. quit
+   - Exits the shell.
+   - Example: quit
+
+HOW TO USE BATCH MODE:
+- The shell can read commands from a file.
+- Run the shell with: ./customshell batchfile.txt.
+- The batch file should have one command per line.
+
+External Commands:
+All commands not listed as internal (beyond cd, clr, dir, environ, echo, help, pause, and quit) are treated as external commands. These are executed by forking a new process and using execvp(), with the shell environment variable parent set to the full path of the shell executable.
+
+I/O Redirection:
+The shell supports input and output redirection using the operators <, >, and >>.
+
+< replaces standard input with a file.
+
+> creates or truncates a file and directs standard output to it.
+
+>> appends output to a file (creating it if necessary).
+This redirection works for both internal commands (like dir, environ, echo, and help) and external commands.
+
+Background Execution:
+For external commands, appending an ampersand (&) to the command line executes the command in the background. This allows the shell to return to the prompt immediately while the command continues to run concurrently.
+
+
